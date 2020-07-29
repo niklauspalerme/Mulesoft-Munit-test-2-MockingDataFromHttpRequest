@@ -1,0 +1,33 @@
+{
+  "configs": [
+    "kcc-mkt-stratifyd-exp-api.xml",
+    "kcc-mkt-stratifyd-exp/global.xml",
+    "kcc-mkt-stratifyd-exp/kcc-mkt-stratifyd-exp-impl.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.kcc:kcc-mkt-stratifyd-exp-api:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.1",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "api/kcc-mkt-stratifyd-exp-api.raml",
+        "kcc-mkt-stratifyd-exp/global.xml",
+        "kcc-mkt-stratifyd-exp/kcc-mkt-stratifyd-exp-impl.xml",
+        "kcc-mkt-stratifyd-exp-api.xml",
+        "log4j2.xml",
+        "properties/dev.yaml",
+        "properties/prod.yaml",
+        "properties/sit.yaml",
+        "properties/uat.yaml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

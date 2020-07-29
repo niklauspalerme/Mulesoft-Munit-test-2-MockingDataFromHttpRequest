@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana"
+	xmlns:kcc-utils="http://www.mulesoft.org/schema/mule/kcc-utils"
+	xmlns:smart-logger="http://www.mulesoft.org/schema/mule/smart-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/smart-logger http://www.mulesoft.org/schema/mule/smart-logger/current/mule-smart-logger.xsd
+http://www.mulesoft.org/schema/mule/kcc-utils http://www.mulesoft.org/schema/mule/kcc-utils/current/mule-kcc-utils.xsd
+http://www.mulesoft.org/schema/mule/s4hana http://www.mulesoft.org/schema/mule/s4hana/current/mule-s4hana.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<sub-flow name="status-flow" doc:id="01a95d8f-2b6b-48a3-9dff-f44ddf39ed9f" >
+		<kcc-utils:kc-logger doc:name="KC Logger" doc:id="9b3736dd-36ed-4195-8cd6-7b76c293450a" config-ref="KC_Utils_Config" logMessage=":::::::: Implementation of the status flow started :::::::::" level="INFO" interfaceName="Status Interface" category="org.kcc.apps.template" tracepoint="BEFORE_TRANSFORM" tracepointDesc="Before Mapping"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d0d1cd35-ba87-42cb-8eaf-c7f7c58ebb64" message="query parameter: #[attributes.queryParams.fromdate]"/>
+		<http:request method="GET" doc:name="sytem layer call" doc:id="1e7e1e59-c3fc-46c7-bcdf-32ff2df50d06" config-ref="HTTP_Request_System_configuration" path="/commentary-data">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"todate" : attributes.queryParams.todate,
+	"fromdate" : attributes.queryParams.fromdate,
+	"region" : "china"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="1c37310c-be83-45ca-9c0a-6234f6f7cf1b" doc:name="Mapping">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item, index) -> {
+      BabyWetTissueTier: item.babyWetTissueTier,
+      CommentCount: item.commentCount,
+    ReviewReply: item.reviewReply,
+    PocketTissuePack : item.pocketTissuePack,
+    ReplyByer: item.replyByer,
+    CommentContent: item.commentContent,
+    ReplyTime: item.replyTime,
+    BabyDiaperSize: item.babyDiaperSize,
+    TamponSeries: item.tamponSeries,
+    StoreName: item.storeName,
+    IsDeleted: item.isDeleted,
+    SecondProperty: item.secondProperty,
+    TmallMember: item.tmallMember,
+    TissuePack: item.tissuePack,
+    CommentLevel: item.commentLevel,
+    Tag: item.tag,
+    Brand: item.brand,
+    MenstrualHygienePantTier: item.menstrualHygienePantTier,
+    AreaName: item.areaName,
+    BabyDiaperTier: item.babyDiaperTier,
+    Specname: item.specname,
+    BabyPantSeries: item.babyPantSeries,
+    WetTissuePack: item.wetTissuePack,
+    BabyDiaperSeries: item.babyDiaperSeries,
+    TamponFlow: item.tamponFlow,
+    FristProperty: item.fristProperty,
+    Month: item.month,
+    WetToiletPack: item.wetToiletPack,
+    ReplyState: item.replyState,
+    Sentiment: item.sentiment,
+    SanitaryNapkinLenght: item.sanitaryNapkinLenght,
+   Commenttime: item.commenttime,
+    MenstrualHygienePantProductLine: item.menstrualHygienePantProductLine,
+    FirstReplyContent: item.firstReplyContent,
+    Platform: item.platform,
+    NursingPadSize: item.nursingPadSize,
+    BabyDiaperProductLine: item.babyDiaperProductLine,
+    BabyPantProductLine: item.babyPantProductLine,
+    SuiteSize: item.suiteSize,
+    CommentId: item.commentId,
+    ProductName: item.productName,
+    BabyPantSize: item.babyPantSize,
+    ProductUrl: item.productUrl,
+    PhysicalProductName: item.physicalProductName,
+    AdultPantsSize: item.adultPantsSize,
+    SanitaryNapkinSeries: item.sanitaryNapkinSeries,
+    MenstrualHygienePantSeries: item.menstrualHygienePantSeries,
+    TamponTubeType: item.tamponTubeType,
+    TemponTier: item.temponTier,
+    AdultDiaperSize: item.adultDiaperSize,
+    TemponProductLine: item.temponProductLine,
+    StoreType: item.storeType,
+    UserLevel: item.userLevel,
+    SanitaryNapkinProductLine: item.sanitaryNapkinProductLine,
+    RolledPaperPack: item.rolledPaperPack,
+    CottonSoftTowelPack: item.cottonSoftTowelPack,
+    BuyTime: item.buyTime,
+    ReviewContent: item.reviewContent,
+    UserArea: item.userArea,
+    BabyPantTier:item.babyPantTier,
+    Category: item.category,
+    SanitaryNapkinTier: item.sanitaryNapkinTier,
+    UserName: item.userName
+} ]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="882aaec5-9ef3-439d-8767-23b52cfa4626" message="Response form Hana::: #[payload]"/>
+		<kcc-utils:kc-logger doc:name="KC Logger" doc:id="5cbb0192-cf72-4651-8751-aeb12ebf74aa" config-ref="KC_Utils_Config" logMessage=":::::::: Implementation of the status flow Completed :::::::::" level="INFO" interfaceName="Status Interface" category="org.kcc.apps.template" tracepoint="AFTER_TRANSFORM" tracepointDesc="After Mapping"/>
+</sub-flow>
+</mule>

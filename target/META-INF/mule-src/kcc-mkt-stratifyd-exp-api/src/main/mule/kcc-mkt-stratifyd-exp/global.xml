@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:kcc-utils="http://www.mulesoft.org/schema/mule/kcc-utils"
+	xmlns:kcc-logger="http://www.mulesoft.org/schema/mule/kcc-logger" xmlns:smart-logger="http://www.mulesoft.org/schema/mule/smart-logger"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/smart-logger http://www.mulesoft.org/schema/mule/smart-logger/current/mule-smart-logger.xsd
+http://www.mulesoft.org/schema/mule/kcc-logger http://www.mulesoft.org/schema/mule/kcc-logger/current/mule-kcc-logger.xsd
+http://www.mulesoft.org/schema/mule/kcc-utils http://www.mulesoft.org/schema/mule/kcc-utils/current/mule-kcc-utils.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="03dce426-e3bf-40e6-a6ef-379ad5c3ef5d" file="properties/${mule.env}.yaml" />
+	<global-property doc:name="Global Property" doc:id="e53fb1d3-5404-492c-aa6a-0fce1d3620aa" name="mule.env" value="dev" />
+	<kcc-utils:config name="KC_Utils_Config" doc:name="KC Utils Config" doc:id="90242a34-6890-48c4-a126-d662e161046c" appVersion="#[p('app.version')]" businessGroup="#[p('app.source')]"/>
+	<http:request-config name="HTTP_Request_System_configuration" doc:name="HTTP Request configuration" doc:id="adc69ed6-c69d-4631-8d88-892adfbfbfa8" basePath="/api" >
+		<http:request-connection host="localhost" port="8091" />
+	</http:request-config>
+	
+   
+</mule>

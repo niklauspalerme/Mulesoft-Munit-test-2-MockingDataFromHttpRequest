@@ -1,0 +1,58 @@
+#%RAML 1.0
+title: kcc-mkt-stratifyd-exp-api
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/5a0d305b-9781-4218-afeb-60ca72233a10/ # baseUri:
+version:  v1
+protocols:
+  - HTTPS
+mediaType: 
+  - application/json
+traits:
+  client-id-required:
+    headers:
+      client_id:
+        type: string
+      client_secret:
+        type: string
+
+description: Stratifyd (vendor) will extract the social commentary data (KC engage an agent to crawl all the social commentary which comment KC product e.g. Huggies, Depend, wet tissue from the internet and load into HANA) from KC HANA
+
+
+/commentary:
+ get:
+   description: Stratifyd (vendor) will extract the social commentary data from Hana.
+   is: [client-id-required]
+   queryParameters:
+     fromdate:
+        description: |
+          This field identifies & filters using fromdate
+        type: string
+        required: false
+     todate:
+        description: |
+          This field identifies & filters using todate.
+        type: string
+        required: false 
+     limit:
+        description: |
+          This field indentifies the limits the records per page.
+        type: integer
+        required: false 
+     offset:
+        description: |
+          This field indentifies the pagination.
+        type: integer
+        required: false
+     region:
+        description: |
+          This field indentifies the region.
+        type: string
+        required: true
+        default: china     
+   responses:
+     200:
+       body:
+         application/json:
+           example: |
+              { 
+                "status" : "success" 
+              }         

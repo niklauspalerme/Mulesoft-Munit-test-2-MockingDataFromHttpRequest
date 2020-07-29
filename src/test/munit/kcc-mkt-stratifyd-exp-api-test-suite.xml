@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="kcc-mkt-stratifyd-exp-api-test-suite.xml" />
+	
+	<!-- Importamos el flow del API:KIT -->
+	<import doc:name="Import" doc:id="3ba118c1-445a-4e27-8a4d-1bd33a276f5e" file="kcc-mkt-stratifyd-exp-api.xml" />
+	
+	<!-- Test 1 -->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-APIKIT:BAD_REQUEST" doc:id="61e90051-44b6-4300-9026-18fe570f4e76" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ab1cc923-7a92-4810-8169-dfddd2d47688" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="2807d4b2-64f0-4d93-9f16-0e8072ffada3" >
+				<flow-ref doc:name="Flow-ref to kcc-mkt-stratifyd-exp-api-main" doc:id="57f886ce-8737-4618-b5e1-e986ed4fe563" name="kcc-mkt-stratifyd-exp-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="e5b49331-0ba0-4cc1-929c-19596ff94a5d" />
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="82c1f9cb-070a-438a-adec-06dc01210a48" actual="#[payload.message]" expected='#["Bad request"]'/>
+		</munit:validation>
+	</munit:test>
+	
+	<!-- Test 2 -->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-APIKIT:UNSUPPORTED_MEDIA_TYPE" doc:id="e8a40ab3-ce51-468b-9b11-5483034a32a4" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1fd249b3-c832-43f8-9fac-b29948afe961" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="61ed8c5c-3318-4a6a-a936-b4aa8482b7f9" >
+				<flow-ref doc:name="Flow-ref to kcc-mkt-stratifyd-exp-api-main" doc:id="37b2d09c-9b6f-4e8e-a957-b2cc244cf310" name="kcc-mkt-stratifyd-exp-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="314542d8-d823-4f8d-a131-cf22d9525c4a" />
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="a4658aeb-6dfe-4a95-a21c-8d07f81dcac5" actual="#[payload.message]" expected='#["Unsupported media type"]'/>
+		</munit:validation>
+	</munit:test>
+	
+	<!-- Test 3 -->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-APIKIT:METHOD_NOT_ALLOWED" doc:id="86c52a26-e0b4-4ede-a983-3ac26f5e1e5a" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="29d9d403-0ddc-4f6e-ae29-6843b34daab1" processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="17f192b7-000c-4424-8d00-a5cbf652052d">
+				<flow-ref doc:name="Flow-ref to kcc-mkt-stratifyd-exp-api-main" doc:id="ef7c9c7f-e64d-4763-8794-13f27b48bb32" name="kcc-mkt-stratifyd-exp-api-main" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="7ed58f2e-c1f9-4b82-8cce-a87d032ec96a" />
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="b885a1f2-64cf-43a6-ba2b-b3ebc758f1ca" actual="#[payload.message]" expected='#["Method not allowed"]' />
+			<munit-tools:verify-call doc:name="Verify call" doc:id="5bea46d2-f75e-460b-943e-7f277cf0a6e1" processor="apikit:router" atLeast="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	
+	<!-- Test 4 -->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-APIKIT:NOT_FOUND" doc:id="674c3f4f-42f7-40a9-8902-2cbfdd2ca846" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5419019a-a422-4cf8-b387-269357126840" processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="dbc7318c-63de-4bb8-848e-7f24857f73f1">
+				<flow-ref doc:name="Flow-ref to kcc-mkt-stratifyd-exp-api-main" doc:id="3c7cbba3-141c-4deb-8fd1-084f24faaf13" name="kcc-mkt-stratifyd-exp-api-main" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4aca8b18-b8db-401d-a69e-2fff003a48fe" />
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="0db9b298-b1e0-47db-b285-3e0354101c84" actual="#[payload.message]" expected='#["Resource not found"]' />
+		</munit:validation>
+	</munit:test>
+	
+	<!-- Test 5 -->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-APIKIT:NOT_IMPLEMENTED" doc:id="0f26a2a7-4002-40f1-84a3-42c9b3b7428d" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b08ad532-8ba4-413d-9acf-f8bc20e8a081" processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="9410dcbf-1cc3-4323-9c81-6461f4010eb5">
+				<flow-ref doc:name="Flow-ref to kcc-mkt-stratifyd-exp-api-main" doc:id="c7de5308-f3bb-43a3-bb46-e391419d42b2" name="kcc-mkt-stratifyd-exp-api-main" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="2b6f01b9-d29e-496c-ba81-b04847341bd8" />
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="b1f4d884-100b-48d4-9655-e0b7f1bc20f7" actual="#[payload.message]" expected='#["Not Implemented"]' />
+		</munit:validation>
+	</munit:test>
+	
+	<!-- Test 6 -->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-APIKIT:NOT_ACCEPTABLE" doc:id="3cec063a-5331-4dac-867b-8a58de528469" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b8af2f47-3d29-4fda-8373-59d0abb87c6b" processor="apikit:router">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="5ff1f8bc-6f97-463a-b316-53462162ae95">
+				<flow-ref doc:name="Flow-ref to kcc-mkt-stratifyd-exp-api-main" doc:id="30d9c19a-36a8-4f9c-9664-666230f9e380" name="kcc-mkt-stratifyd-exp-api-main" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="bcc24aa2-5bda-4c6d-97a4-06796560a203" />
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="846cbb7e-9c8d-4f0c-86d6-8325b3c06d42" actual="#[payload.message]" expected='#["Not acceptable"]' />
+		</munit:validation>
+	</munit:test>
+	
+	<!-- Test 7 - API-Console -->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-API-CONSOLE" doc:id="e856644c-59e4-42f7-93ce-7432c1f12a67" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="49aeb91d-83c3-48e8-a433-cfcb5dd4f8fa" processor="apikit:console">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to kcc-mkt-stratifyd-exp-api-console" doc:id="1e681253-d58e-4473-bab0-f56038905953" name="kcc-mkt-stratifyd-exp-api-console"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="ede3b0e6-cfcd-4719-919f-1fa9f1b804b8" processor="apikit:console" atLeast="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="kcc-mkt-stratifyd-exp-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	
+	<!-- Test 8 - Mocking a response from http request-->
+	<munit:test name="kcc-mkt-stratifyd-exp-api-test-suite-get:\commentary:kcc-mkt-stratifyd-exp-api-configTest" doc:id="17b87c95-856a-4691-956b-9e4d4b3983d1" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="fdad1ba8-120a-4a9c-8304-ebc968321112" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="sytem layer call" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[readUrl('classpath://examples/system-api-response.dwl')] " />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to get:\commentary:kcc-mkt-stratifyd-exp-api-config" doc:id="3fc16fc6-2d2a-48e1-9ba8-f90e43da5876" name="get:\commentary:kcc-mkt-stratifyd-exp-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="a1e03467-4470-4f97-9b5e-aff7565061fb" processor="kcc-utils:kc-logger" atLeast="1">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="KC Logger" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+
+</mule>
